@@ -1,0 +1,77 @@
+
+
+websocket是一种规范 为了弥补http不足  实现浏览器与服务器的长连接
+（客户端与服务端连接之后没有意外不断开 双方互相推送数据 长连接只有在初次建立之间之后 第一次客户端发送head  之后不需要发送头信息 直接发送实际数据）
+websocket是建立在http请求之上
+websocket虽然基于html 也可以不用浏览器  jar支持既可以
+http是无状态的两次请求之间没有关系 服务器不认为是一个客户端发过来的
+      基于请求响应模式 每次客户端请求都先建立连接 http1.0 服务器发完response 链接立马断掉
+      http1.1  keep-alive  在一定时间之内重用原有的链接 服务器不能推送消息到客户端  之前通过轮询的模式 并且消息必须包含head（也没什么用） body
+
+
+rpc  远程过程调用  跨语言
+
+1.定义一个接口文件：描述了对象（结构体），对象成员，接口方法等一系列信息 .idl文件
+2.通过rpc框架所提供的编译器，将接口说明文件编译成具体语言文件
+3.在客户端与服务器端分别引入rpc编译器所生成的文件，即可向调用本地方法一样调用远程方法
+  性能 : 编解码的效率  webservice 传输的数据量一般比较大
+        rpc socket传输   webservice  http传输
+
+
+.proto变化文件 git管理 让其他电脑获得即使变更  rpc中间代码的引用
+（不是很好的方案） git submodule （git仓库里面的一个仓库） 讲一个工程引入到另一个工程  将proto放入公共的地方
+        客户端服务器去一个地方娶  .proto另建一个仓库
+        branch
+            develop
+            test
+            master(最新线上的版本)
+        问题  问题分支切换紊乱 引用中间项目的代码
+（推崇的方案） git  subtree 也存在3项目  将中间项目拉娶到另一个项目 相当于代码合并（merge）
+
+也可以打成jar包 修改之后就传到私服上面
+
+Apache Thrift
+根据thrift文件  codegen  java
+thrift --gen java filePath
+
+TCompactProtocol  TFramedTransport  THsHaServer(并发量大表现优异)
+
+
+grpc 地位类似于thrift  消息格式是proto  拥有客户端服务端
+
+
+
+gradlew  作用及好处  gradle wapper
+在本地没有gradle的情况下，可以通过命令项目构建
+task wrapper(type : Wrapper){
+    gradleVersion = '4.9'
+    distributionType = 'all'
+}
+
+gradle wrapper 本地打包   将src  build.gradle settings.gradle 以及wrapper生成的三个文件
+linux  os windows 用的  提交到版本库
+从仓库中拉取的时候用 gradlew clean build  会自动去 用户目录下的 .gradle查看 然后下载 构建
+
+
+
+grpc
+thrift 启动后一直阻塞
+
+
+sleep  和 wait 的区别
+
+# 以#开头的行都是注释
+# 忽略*.o和*.a文件（常见的编译过程中产生的文件）
+ *.[oa]
+# 忽略*.c和*.C文件，somefile.b除外，!用于在在某规则之后增加例外
+*.[bB]
+!somefile.b
+# 忽略somepath文件和somepath目录
+dbg
+# 只忽略somepath目录，不忽略somepath文件
+somepath/
+# 只忽略somepath文件，不忽略somepath目录
+somepath
+!somepath/
+# 只忽略当前目录下的somepath文件和目录，子目录的somepath不在忽略范围内
+/somepath

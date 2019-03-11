@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package com.zhang.proto;
+option java_package = "com.zhang.netty.proto";
+option java_outer_classname = "Student";
+option  java_multiple_files = true;
+
+
+service StudentService{
+    rpc GetRealName(MyRequest) returns(MyResponse){};
+    rpc GetStudentSByAge(StudentRequest  ) returns (stream StudentResponse){};
+    rpc  GetStudentWrapperByAges(stream StudentRequest) returns(StudentResponseList){};
+    rpc  GetStudentsBySomeAge(stream MyRequest) returns(stream MyResponse){}
+
+}
+
+message MyRequest{
+    string username = 1;
+}
+
+message MyResponse{
+    string realname = 2;
+}
+
+message StudentRequest{
+    int32 age = 1;
+}
+
+message StudentResponse{
+    string name = 1;
+    int32 age = 2;
+    string city = 3;
+}
+
+message StudentResponseList{
+    repeated StudentResponse studentResponse = 1; //代表一个集合
+}
+
+message StudentsAge{
+    repeated StudentRequest studentRequest = 1;
+}
+
+
+

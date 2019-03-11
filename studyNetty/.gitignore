@@ -1,0 +1,6 @@
+#.gitignore for java
+*.class
+/.gradle
+/build
+/gen-java
+/.idea
